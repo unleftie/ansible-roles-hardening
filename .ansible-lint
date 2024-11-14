@@ -1,0 +1,34 @@
+---
+skip_list:
+  - name[casing]
+  - name[template]
+  - key-order[task]
+  - name[missing]
+  - fqcn-builtins
+  - yaml[document-start]
+  - yaml[octal-values]
+  - var-naming[no-role-prefix]
+
+warn_list:
+  - no-changed-when
+  - truthy
+  - no-jinja-when
+  - experimental
+  - ignore-errors
+  - empty-string-compare
+  - var-naming
+  - jinja[spacing]
+  - meta-incorrect
+  - meta-no-info
+  - role-name
+  - namespace
+  - command-instead-of-shell
+  - command-instead-of-module
+  - package-latest
+  - yaml[line-length]
+  - jinja[invalid]
+
+exclude_paths:
+  - molecule/default/tests/*.yml
+  - molecule/default/*.yml
+  - .github/

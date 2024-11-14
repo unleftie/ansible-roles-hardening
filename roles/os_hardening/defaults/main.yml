@@ -1,5 +1,6 @@
 ---
-os_env_user_paths: [/usr/local/sbin, /usr/local/bin, /usr/sbin, /usr/bin, /sbin, /bin]
+os_env_user_paths:
+  [/usr/local/sbin, /usr/local/bin, /usr/sbin, /usr/bin, /sbin, /bin]
 os_env_extra_user_paths: []
 os_auth_pw_max_age: 60
 os_auth_pw_min_age: 7 # Discourage password cycling
@@ -49,7 +50,8 @@ os_security_suid_sgid_remove_from_unknown: false
 
 # Remove packages with known security issues
 os_security_packages_clean: true
-os_security_packages_list: [xinetd, inetd, ypserv, telnet-server, rsh-server, prelink]
+os_security_packages_list:
+  [xinetd, inetd, ypserv, telnet-server, rsh-server, prelink]
 # Allow interactive startup (rhel, centos)
 os_security_init_prompt: true
 # Require root password for single user mode. (rhel, centos)

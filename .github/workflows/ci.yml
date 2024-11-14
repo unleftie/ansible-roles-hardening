@@ -1,0 +1,192 @@
+name: CI
+on:
+  workflow_dispatch:
+    inputs:
+      runKics:
+        description: Run KICS scan
+        type: boolean
+        default: false
+        required: false
+      runLint:
+        description: Run Ansible Lint
+        type: boolean
+        default: true
+        required: false
+      runMolecule:
+        description: Run Ansible Molecule
+        type: boolean
+        default: true
+        required: false
+  push:
+    paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
+    branches: ["master", "main"]
+  pull_request:
+    paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
+    branches: ["master", "main"]
+    types: [opened, reopened]
+  # run on dependabot's push, see https://github.com/fastify/github-action-merge-dependabot/issues/134
+  workflow_run:
+    workflows: ["Approve and Merge Dependabot's PR"]
+    branches: ["dependabot/**"]
+    types: [completed]
+
+env:
+  ROLES_PATH: "roles/"
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: CD
+  cancel-in-progress: false
+
+jobs:
+  init:
+    name: Initialize CI for ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get roles list in json
+        id: roles-list
+        run: echo "roles-list=$(ls ${{ env.ROLES_PATH }} | grep -E 'os|ssh' | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+        shell: bash
+
+    outputs:
+      roles-list: ${{ steps.roles-list.outputs.roles-list }}
+
+  scan:
+    name: Checkmarx KICS
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [init]
+    if: |
+      github.event_name != 'pull_request' &&
+      github.event.workflow_run.conclusion != 'failure'
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+      security-events: write
+      actions: read
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run KICS scan
+        uses: checkmarx/kics-github-action@v2
+        with:
+          path: "roles/"
+          fail_on: high
+          output_formats: "json,sarif"
+          exclude_paths: ".github/workflows/scorecard.yml"
+          exclude_queries: "555ab8f9-2001-455e-a077-f2d0f41e2fb9" # Unpinned Actions Full Length Commit SHA
+        continue-on-error: true
+
+      - name: Upload to code-scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
+
+  lint:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [init]
+    if: |
+      github.event.workflow_run.conclusion != 'failure'
+    strategy:
+      fail-fast: true
+      matrix:
+        roles: ${{ fromJson(needs.init.outputs.roles-list) }}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Ansible Lint
+        uses: unleftie/ansible-lint-action@v1
+        with:
+          path: "roles/${{ matrix.roles }}"
+
+  molecule:
+    name: Ansible Molecule
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [init]
+    if: |
+      github.event.workflow_run.conclusion != 'failure'
+    strategy:
+      fail-fast: true
+      matrix:
+        roles: ${{ fromJson(needs.init.outputs.roles-list) }}
+        distro:
+          - debian12
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Ansible Molecule
+        uses: unleftie/ansible-molecule-action@v1
+        with:
+          github_token: ${{ github.token }}
+          role_name: ${{ matrix.roles }}
+          distro: ${{ matrix.distro }}
+          working_directory: "roles/${{ matrix.roles }}"
+
+  release:
+    name: Publish Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [lint, molecule]
+    if: |
+      github.event_name != 'pull_request' &&
+      github.event.workflow_run.conclusion != 'failure'
+    permissions:
+      packages: write
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          semantic_version: 24
+          extra_plugins: |
+            conventional-changelog-conventionalcommits@8.0.0
+            @semantic-release/github@10.3.5

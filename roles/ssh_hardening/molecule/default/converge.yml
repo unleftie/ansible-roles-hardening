@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  tasks:
+    - include_role:
+        name: "{{ lookup('env', 'ROLE_NAME') | default('ssh_hardening', true) }}"
