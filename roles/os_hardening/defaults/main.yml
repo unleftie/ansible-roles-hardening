@@ -58,7 +58,7 @@ os_security_init_prompt: true
 os_security_init_single: false
 
 # Apply ufw defaults
-ufw_manage_defaults: true
+ufw_manage_defaults: false
 
 # Empty variable disables IPT_SYSCTL in /etc/default/ufw
 # By default in Ubuntu it is set to: /etc/ufw/sysctl.conf
@@ -332,7 +332,7 @@ os_filesystem_whitelist: []
 os_hardening_enabled: true
 
 # Set to false to disable installing and configuring auditd.
-os_auditd_enabled: true
+os_auditd_enabled: false
 os_auditd_template: etc/audit/auditd.conf.j2
 os_auditd_flush: INCREMENTAL
 os_auditd_freq: 20
