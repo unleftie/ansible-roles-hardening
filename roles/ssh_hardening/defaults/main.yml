@@ -46,7 +46,7 @@ ssh_host_rsa_key_size: 4096 # sshd
 ssh_host_certificates: [] # sshd
 
 # Specifies the host key algorithms that the server offers
-ssh_host_key_algorithms: [] # sshd
+ssh_host_key_algorithms: [ecdsa-sha2-nistp256, ssh-ed25519] # sshd
 
 # Specifies the host key algorithms order the client will try
 ssh_client_host_key_algorithms: [] # ssh
@@ -76,7 +76,7 @@ ssh_permit_tunnel: "no"
 #     options: ['StrictHostKeyChecking no']
 ssh_remote_hosts: []
 # Set this to "without-password" or "yes" to allow root to login
-ssh_permit_root_login: "no" # sshd
+ssh_permit_root_login: "without-password" # sshd
 
 # false to disable TCP Forwarding. Set to 'yes', 'no', 'local', 'all' or 'remote'
 # to allow TCP Forwarding.
@@ -156,7 +156,7 @@ ssh_print_motd: false # sshd
 ssh_print_pam_motd: false # sshd
 
 # false to disable display of last login information
-ssh_print_last_log: false # sshd
+ssh_print_last_log: true # sshd
 
 # false to disable serving ssh warning banner before authentication is allowed
 ssh_banner: false # sshd
@@ -168,7 +168,7 @@ ssh_banner_path: /etc/ssh/banner.txt
 ssh_print_debian_banner: false # sshd (Debian OS family only)
 
 # false to disable sftp configuration
-sftp_enabled: true
+sftp_enabled: false
 
 # false to disable sftp chroot
 sftp_chroot: true
