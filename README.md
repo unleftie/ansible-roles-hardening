@@ -9,6 +9,10 @@
 | -------- | ------- |
 | debian   | 12      |
 
+## SSH Warning
+
+This role disables root-login on the target server! Please make sure you have another user with su or sudo permissions that can login into the server.
+
 ## Dependencies
 
 - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (v2.14+)
