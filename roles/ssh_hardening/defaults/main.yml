@@ -59,10 +59,10 @@ ssh_login_grace_time: 30s
 ssh_max_auth_retries: 2
 
 # Specifies the maximum number of open sessions permitted from a given connection
-ssh_max_sessions: 10
+ssh_max_sessions: 5
 
 ssh_client_alive_interval: 300 # sshd
-ssh_client_alive_count: 3 # sshd
+ssh_client_alive_count: 2 # sshd
 
 # Allow SSH Tunnels
 ssh_permit_tunnel: "no"
@@ -76,7 +76,7 @@ ssh_permit_tunnel: "no"
 #     options: ['StrictHostKeyChecking no']
 ssh_remote_hosts: []
 # Set this to "without-password" or "yes" to allow root to login
-ssh_permit_root_login: "without-password" # sshd
+ssh_permit_root_login: "no" # sshd
 
 # false to disable TCP Forwarding. Set to 'yes', 'no', 'local', 'all' or 'remote'
 # to allow TCP Forwarding.
@@ -112,7 +112,7 @@ ssh_gssapi_delegation: false
 ssh_deny_users: "" # sshd
 
 # if specified, login is allowed only for user names that match one of the patterns.
-ssh_allow_users: "" # sshd
+ssh_allow_users: "admin" # sshd
 
 # if specified, login is disallowed for users whose primary group or supplementary group list matches one of the patterns.
 ssh_deny_groups: "" # sshd
