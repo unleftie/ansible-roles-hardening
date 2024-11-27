@@ -112,7 +112,7 @@ ssh_gssapi_delegation: false
 ssh_deny_users: "" # sshd
 
 # if specified, login is allowed only for user names that match one of the patterns.
-ssh_allow_users: "admin" # sshd
+ssh_allow_users: "admin sftpuser" # sshd
 
 # if specified, login is disallowed for users whose primary group or supplementary group list matches one of the patterns.
 ssh_deny_groups: "" # sshd
