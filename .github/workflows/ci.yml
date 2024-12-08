@@ -24,11 +24,6 @@ on:
     paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
     branches: ["master", "main"]
     types: [opened, reopened]
-  # run on dependabot's push, see https://github.com/fastify/github-action-merge-dependabot/issues/134
-  workflow_run:
-    workflows: ["Approve and Merge Dependabot's PR"]
-    branches: ["dependabot/**"]
-    types: [completed]
 
 env:
   ROLES_PATH: "roles/"
@@ -64,8 +59,8 @@ jobs:
     timeout-minutes: 5
     needs: [init]
     if: |
-      github.event_name != 'pull_request' &&
-      github.event.workflow_run.conclusion != 'failure'
+      inputs.runKics == true ||
+      github.event_name == 'push'
     permissions:
       contents: read
       issues: write
@@ -103,7 +98,9 @@ jobs:
     timeout-minutes: 5
     needs: [init]
     if: |
-      github.event.workflow_run.conclusion != 'failure'
+      inputs.runLint == true ||
+      github.event_name == 'push' ||
+      github.event_name == 'pull_request'
     strategy:
       fail-fast: true
       matrix:
@@ -129,7 +126,9 @@ jobs:
     timeout-minutes: 15
     needs: [init]
     if: |
-      github.event.workflow_run.conclusion != 'failure'
+      inputs.runMolecule == true ||
+      github.event_name == 'push' ||
+      github.event_name == 'pull_request'
     strategy:
       fail-fast: true
       matrix:
@@ -160,9 +159,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [lint, molecule]
-    if: |
-      github.event_name != 'pull_request' &&
-      github.event.workflow_run.conclusion != 'failure'
+    if: github.event_name == 'push'
     permissions:
       packages: write
       contents: write
