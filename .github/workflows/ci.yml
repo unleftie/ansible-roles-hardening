@@ -28,6 +28,8 @@ on:
 env:
   ROLES_PATH: "roles/"
 
+permissions: {}
+
 defaults:
   run:
     shell: bash
