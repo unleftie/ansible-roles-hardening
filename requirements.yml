@@ -1,8 +1,4 @@
 ---
 collections:
-  - name: https://github.com/ansible-collections/community.general.git
-    type: git
-  - name: https://github.com/ansible-collections/community.grafana.git
-    type: git
-  - name: https://github.com/ansible-collections/ansible.posix.git
-    type: git
+  - name: devsec.hardening
+    version: ">=10.3.0"

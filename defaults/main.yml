@@ -1,0 +1,8 @@
+---
+# overrides for devsec.hardening.os_hardening, see:
+# https://github.com/dev-sec/ansible-collection-hardening/blob/master/roles/os_hardening/defaults/main.yml
+
+# overrides for devsec.hardening.ssh_hardening, see:
+# https://github.com/dev-sec/ansible-collection-hardening/blob/master/roles/ssh_hardening/defaults/main.yml
+
+test: test

@@ -1,0 +1,15 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure apt cache is updated
+      apt:
+        update_cache: true
+        update_cache_retries: 5
+        update_cache_retry_max_delay: 5
+      register: _progress_status
+      until: _progress_status is succeeded
+      delay: 5
+      retries: 5
+      when: ansible_facts['os_family'] == "Debian"

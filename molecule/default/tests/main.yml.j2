@@ -1,0 +1,43 @@
+---
+# starting point ported from the old ssh_hardening/os_hardening goss suites - extend as needed
+port:
+  tcp:22:
+    listening: true
+    ip:
+      - 0.0.0.0
+service:
+  sshd:
+    enabled: true
+    running: true
+process:
+  sshd:
+    running: true
+command:
+  sshd -t:
+    exit-status: 0
+interface:
+  "{{ ansible_facts['default_ipv4']['interface'] }}":
+    exists: true
+  lo:
+    exists: true
+file:
+  /etc/passwd:
+    exists: true
+    mode: "0644"
+    owner: root
+    group: root
+    filetype: file
+  /etc/hosts:
+    exists: true
+    mode: "0644"
+    owner: root
+    group: root
+    filetype: file
+{% if ansible_facts['os_family'] == "Debian" %}
+  /etc/shadow:
+    exists: true
+    mode: "0640"
+    owner: root
+    group: shadow
+    filetype: file
+{% endif %}

@@ -1,0 +1,8 @@
+---
+- name: Apply OS hardening
+  ansible.builtin.import_role:
+    name: devsec.hardening.os_hardening
+
+- name: Apply SSH hardening
+  ansible.builtin.import_role:
+    name: devsec.hardening.ssh_hardening

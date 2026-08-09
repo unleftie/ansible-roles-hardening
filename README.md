@@ -1,7 +1,11 @@
-# Ansible Roles for hardening
+# Ansible Role for hardening
 
 [![CI](https://github.com/unleftie/ansible-roles-hardening/actions/workflows/ci.yml/badge.svg)](https://github.com/unleftie/ansible-roles-hardening/actions/workflows/ci.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/unleftie/ansible-roles-hardening/badge)](https://securityscorecards.dev/viewer/?uri=github.com/unleftie/ansible-roles-hardening)
+
+Thin wrapper role that applies [`devsec.hardening.os_hardening`](https://github.com/dev-sec/ansible-collection-hardening/tree/master/roles/os_hardening)
+and [`devsec.hardening.ssh_hardening`](https://github.com/dev-sec/ansible-collection-hardening/tree/master/roles/ssh_hardening) from the upstream
+[dev-sec.hardening](https://galaxy.ansible.com/ui/repo/published/devsec/hardening/) collection. Override variables live in [defaults/main.yml](defaults/main.yml).
 
 ## Compatibility
 
@@ -23,13 +27,16 @@ This role disables root-login on the target server! Please make sure you have an
 
 ```sh
 git clone https://github.com/unleftie/ansible-roles-hardening.git
-cd ansible-roles-hardening/roles/os_hardening # or any other role
+cd ansible-roles-hardening
+ansible-galaxy install -r requirements.yml
 molecule test
 ```
 
 ## Installation
 
-> Upgradability notice: When upgrading from old version of this role, be aware that some files may be lost.
+```sh
+ansible-galaxy install -r requirements.yml
+```
 
 Example [playbook](main.yml)
 
