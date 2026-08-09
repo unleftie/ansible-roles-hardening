@@ -1,7 +1,7 @@
 # Ansible Role for hardening
 
-[![CI](https://github.com/unleftie/ansible-roles-hardening/actions/workflows/ci.yml/badge.svg)](https://github.com/unleftie/ansible-roles-hardening/actions/workflows/ci.yml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/unleftie/ansible-roles-hardening/badge)](https://securityscorecards.dev/viewer/?uri=github.com/unleftie/ansible-roles-hardening)
+[![CI](https://github.com/unleftie/ansible-role-hardening/actions/workflows/ci.yml/badge.svg)](https://github.com/unleftie/ansible-role-hardening/actions/workflows/ci.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/unleftie/ansible-role-hardening/badge)](https://securityscorecards.dev/viewer/?uri=github.com/unleftie/ansible-role-hardening)
 
 Thin wrapper role that applies [`devsec.hardening.os_hardening`](https://github.com/dev-sec/ansible-collection-hardening/tree/master/roles/os_hardening)
 and [`devsec.hardening.ssh_hardening`](https://github.com/dev-sec/ansible-collection-hardening/tree/master/roles/ssh_hardening) from the upstream
@@ -27,8 +27,8 @@ This role disables root-login on the target server! Please make sure you have an
 ## Local Testing
 
 ```sh
-git clone https://github.com/unleftie/ansible-roles-hardening.git
-cd ansible-roles-hardening
+git clone https://github.com/unleftie/ansible-role-hardening.git
+cd ansible-role-hardening
 ansible-galaxy install -r requirements.yml
 molecule test
 ```
@@ -43,4 +43,4 @@ Example [playbook](main.yml)
 
 ## 📝 License
 
-This project is licensed under the [Apache License](LICENSE).
+This project is licensed under the [MIT](LICENSE).
