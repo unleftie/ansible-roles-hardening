@@ -95,7 +95,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run Ansible Lint
-        uses: unleftie/ansible-lint-action@v1
+        uses: ansible/ansible-lint@main
 
   molecule:
     name: Ansible Molecule
@@ -110,6 +110,7 @@ jobs:
       matrix:
         distro:
           - ubuntu2604
+          - debian13
 
     steps:
       - name: Harden Runner
