@@ -1,8 +1,13 @@
 ---
 # overrides for devsec.hardening.os_hardening, see:
 # https://github.com/dev-sec/ansible-collection-hardening/blob/master/roles/os_hardening/defaults/main.yml
+os_auditd_enabled: false
+os_auth_pw_max_age: 99999
+ufw_manage_defaults: false
 
 # overrides for devsec.hardening.ssh_hardening, see:
 # https://github.com/dev-sec/ansible-collection-hardening/blob/master/roles/ssh_hardening/defaults/main.yml
-
-test: test
+ssh_permit_root_login: "no"
+ssh_allow_tcp_forwarding: "no"
+ssh_print_last_log: true
+ssh_allow_users: ""

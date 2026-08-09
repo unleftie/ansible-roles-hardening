@@ -109,7 +109,7 @@ jobs:
       fail-fast: true
       matrix:
         distro:
-          - debian12
+          - ubuntu2604
 
     steps:
       - name: Harden Runner
