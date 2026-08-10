@@ -22,10 +22,27 @@
       armv7l: "armv6"
       armv6l: "armv6"
   tasks:
+    - name: Check for defaults directory
+      stat:
+        path: "../../defaults"
+      register: _defaults_dir
+
+    - name: Check for vars directory
+      stat:
+        path: "../../vars"
+      register: _vars_dir
+
     - name: Include defaults vars
       include_vars:
         dir: "../../defaults"
         extensions: ["yml", "yaml"]
+      when: _defaults_dir.stat.exists
+
+    - name: Include vars
+      include_vars:
+        dir: "../../vars"
+        extensions: ["yml", "yaml"]
+      when: _vars_dir.stat.exists
 
     - name: Ensure dependencies are installed
       pip:

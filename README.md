@@ -5,7 +5,7 @@
 
 Thin wrapper role that applies [`devsec.hardening.os_hardening`](https://github.com/dev-sec/ansible-collection-hardening/tree/master/roles/os_hardening)
 and [`devsec.hardening.ssh_hardening`](https://github.com/dev-sec/ansible-collection-hardening/tree/master/roles/ssh_hardening) from the upstream
-[dev-sec.hardening](https://galaxy.ansible.com/ui/repo/published/devsec/hardening/) collection. Override variables live in [defaults/main.yml](defaults/main.yml).
+[dev-sec.hardening](https://galaxy.ansible.com/ui/repo/published/devsec/hardening/) collection. Override variables live in [vars/main.yml](vars/main.yml)
 
 ## Compatibility
 
