@@ -1,4 +1,9 @@
 ---
+- name: Include role vars
+  ansible.builtin.include_vars:
+    dir: "{{ role_path }}/vars"
+    extensions: ["yml", "yaml"]
+
 - name: Apply OS hardening
   ansible.builtin.import_role:
     name: devsec.hardening.os_hardening
