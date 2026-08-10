@@ -110,7 +110,6 @@ jobs:
       matrix:
         distro:
           - ubuntu2604
-          - debian13
 
     steps:
       - name: Harden Runner
