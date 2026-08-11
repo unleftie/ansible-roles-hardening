@@ -12,7 +12,6 @@ and [`devsec.hardening.ssh_hardening`](https://github.com/dev-sec/ansible-collec
 | Platform | Version |
 | -------- | ------- |
 | ubuntu   | 26.04   |
-| debian   | 13      |
 
 ## SSH Warning
 
