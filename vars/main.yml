@@ -5,6 +5,12 @@ os_auditd_enabled: false
 os_auth_pw_max_age: 99999
 ufw_manage_defaults: false
 
+# lynis kernel hardening, see: https://cisofy.com/lynis/controls/KRNL-6000/
+sysctl_overwrite:
+  fs.protected_fifos: 2 # blocks opening FIFOs in world-writable sticky dirs (tmp) even when the dir owner matches. Nothing in a normal server stack depends on the weaker mode.
+  fs.suid_dumpable: 0 # lets setuid binaries dump root-readable cores → credential/key leakage. Setting 0 only loses core dumps for setuid binaries.
+  net.core.bpf_jit_harden: 2 # blinds JIT constants for all users. Safe unless a host runs eBPF-heavy tooling (Cilium, Falco eBPF driver, Pixie, bpftrace).
+
 # overrides for devsec.hardening.ssh_hardening, see:
 # https://github.com/dev-sec/ansible-collection-hardening/blob/master/roles/ssh_hardening/defaults/main.yml
 ssh_permit_root_login: "no"
